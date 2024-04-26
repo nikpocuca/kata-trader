@@ -1,8 +1,14 @@
 alpaca-py
 matplotlib
 pandas
-pandas-datareader
-quantstats
-requests
-yfinance
+pandas-datareader # not sure what this is for 
+quantstats # not sure what this is for
+requests # probably remove later
+yfinance # remove later
 lumibot 
+numpy
+ruptures
+imageio # remove later 
+
+
+#NOTE(pin versions later) 

@@ -1,0 +1,26 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+# Virtual environments
+venv/
+env/
+.env/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Miscellaneous
+*.DS_Store
+*.pyc
+*.bak
+*.swp
+
+# output files 
+images
+outputs
