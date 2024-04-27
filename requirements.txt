@@ -9,6 +9,7 @@ lumibot
 numpy
 ruptures
 imageio # remove later 
-
+json 
+yaml
 
 #NOTE(pin versions later) 

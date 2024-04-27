@@ -24,3 +24,7 @@ env/
 # output files 
 images
 outputs
+
+# kata specific 
+.secrets
+streams

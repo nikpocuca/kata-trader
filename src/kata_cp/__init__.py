@@ -1,0 +1,1 @@
+from change_point import KataChangePoint

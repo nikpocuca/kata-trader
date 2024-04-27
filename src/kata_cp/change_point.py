@@ -10,15 +10,9 @@ import numpy as np
 
 
 """ 
-Type definitions on data size. 
-
-
+Type definitions on data size and dimensionality
 
 """
-
-
-
-
 
 
 class KataChangePoint: 
@@ -30,5 +24,6 @@ class KataChangePoint:
 
 
     data: np.array 
+    
 
 
