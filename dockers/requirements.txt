@@ -8,8 +8,6 @@ yfinance # remove later
 lumibot 
 numpy
 ruptures
-imageio # remove later 
-json 
-yaml
+pyaml
 
 #NOTE(pin versions later) 

@@ -1,0 +1,10 @@
+
+services:
+  ubuntu_shell_2204:
+    image: ubuntu_shell_2204
+    container_name: ubuntu_shell_2204
+    build:
+      context: .
+      dockerfile: ubuntu_jammy.Dockerfile
+    volumes:
+      - ../:/home/app_user/app
