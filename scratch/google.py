@@ -24,7 +24,7 @@ for i in np.arange(20,data_full.shape[0]):
 
     signal = np.diff(data["Open"].to_numpy())
     algo = rpt.Pelt(model="rbf").fit(signal)
-    result = np.array(algo.predict(pen=1.5)) + 1
+    result = np.array(algo.predict(pen=1.5)) + 1 # magic one because of np diff
 
     def calculate_trend_line(x: np.array, changepoints: np.array): 
         """

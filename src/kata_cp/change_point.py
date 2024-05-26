@@ -24,6 +24,5 @@ class KataChangePoint:
 
 
     data: np.array 
+    penalty: float 
     
-
-
