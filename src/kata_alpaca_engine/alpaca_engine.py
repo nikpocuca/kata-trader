@@ -101,7 +101,7 @@ class KataAlpacaEngine:
         self.paca_stream_thread = threading.Thread(
             target=self.background_stream_job, args=(self.paca_stream_loop,)
         )
-        self.paca_stream_thread.daemon = True
+        self.paca_stream_thread.daemon = True # if main thread dies, then this dies as well. 
         self.paca_stream_thread.start()
 
     def background_stream_job(self, loop: EventLoop):
