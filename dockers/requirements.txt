@@ -9,5 +9,6 @@ lumibot
 numpy
 ruptures
 pyaml
+imageio 
 
 #NOTE(pin versions later) 

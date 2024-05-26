@@ -19,7 +19,7 @@ import yaml
 
 from .logging_utilities import create_logger
 
-logger = create_logger('engine_utilities')
+logger = create_logger('engine-utilities')
 
 def create_andor_delete_dir(dir: os.PathLike = "./streams", delete: bool = True):
     """
@@ -67,15 +67,19 @@ def create_stream_file(date: datetime, stream_dir: os.PathLike) -> os.PathLike:
 
     return path_dir
 
-def acquire_credentials():
+def acquire_credentials(secret_path: str = None):
     """
     looks for the credentials in a secret file 
     """
+    if secret_path is None:
+        secret_path = PATH_SECRETS
+    else:
+        pass 
 
-    if os.path.exists(PATH_SECRETS): 
+    if os.path.exists(secret_path): 
 
         # open file to secrets
-        with open(PATH_SECRETS,'r') as f: 
+        with open(secret_path,'r') as f: 
             
             # use yaml to safely load
             key_information = yaml.safe_load(f)
@@ -83,4 +87,4 @@ def acquire_credentials():
         
     else: 
         logger.critical("Secrets file not found")
-        raise FileNotFoundError(f'File not found for {PATH_SECRETS}')
+        raise FileNotFoundError(f'File not found for {secret_path}')

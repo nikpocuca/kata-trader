@@ -13,7 +13,7 @@ def create_logger(name: str) -> Logger:
     stream_handler.setLevel(logging.DEBUG)
 
     # Create a formatter and set the format of log messages
-    formatter = logging.Formatter('%(levelname)s<%(asctime)s> - %(message)s')
+    formatter = logging.Formatter('%(levelname)s<%(asctime)s>[%(name)s] - %(message)s')
     stream_handler.setFormatter(formatter)
 
     # Add the StreamHandler to the logger
