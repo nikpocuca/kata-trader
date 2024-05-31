@@ -5,8 +5,6 @@ stream_trades.py
 Use the engine to stream results to a stream directory. 
 """
 
-# import sys
-# sys.path.append('..')
 from src.kata_alpaca_engine import KataAlpacaEngine
 from src.script_utilities import WorkloadResult, create_workload_parser, workload_logger
 

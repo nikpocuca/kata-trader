@@ -56,6 +56,10 @@ WORKDIR /home/app_user/app/
 RUN apt-get remove python3-blinker -y
 RUN pip3 install --upgrade --force-reinstall -r requirements.txt
 
+# install node js and nodews 
+
+RUN ${APT_INSTALL} nodejs
+RUN ${APT_INSTALL} node-ws
 
 RUN echo 'export PS1="\[$(tput setaf 165)\](jammy)\[$(tput setaf 171)\] \[$(tput setaf 219)\]\w\[$(tput sgr0)\] $: "' >> ~/.bashrc
 
