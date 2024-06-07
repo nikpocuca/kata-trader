@@ -49,7 +49,7 @@ def check_market_close(sleep_time=25):
     market_close_day = current_dt.day
     market_close_year = current_dt.year
     market_close_month = current_dt.month 
-    market_close_hour = 21
+    market_close_hour = 20
     market_close_minute = 0
 
     market_close_dt = datetime(year=market_close_year, 

@@ -15,4 +15,11 @@ export PYTHONPATH=$(pwd)/src:$PYTHONPATH
 python3 ./scripts/stream_trades.py --config $SECRET_PATH
 
 # output results can be found in ./streams with a datestamp. 
+
+# deploy script for stock trade. 
+
+export PYTHONPATH=$(pwd)/src:$PYTHONPATH; 
+python3 ./scripts/stream_stocks.py --symbol TSLA \
+        --config ./src/.secrets 
+
 ```

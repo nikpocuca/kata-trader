@@ -38,6 +38,7 @@ from .engine_utilities import (
 )
 
 STREAM_DIRECTORY = "stock-data-streams"
+STOCK_DATA_TIME_FORMAT = "%Y-%m-%d: %H:%M:%S.%f"
 
 from enum import Enum
 
@@ -181,7 +182,7 @@ class IngestionEngine:
             data_new = data.copy() 
 
             data_new['t'] = datetime.fromtimestamp(data['t'].seconds)
-            data_new['t'] = data_new['t'].strftime("%Y-%m-%d: %H:%M:%S")
+            data_new['t'] = data_new['t'].strftime(STOCK_DATA_TIME_FORMAT)
 
             data_formatted = {}
             self.update_formatted_dict_r('t', data_new,data_formatted)
@@ -194,4 +195,29 @@ class IngestionEngine:
             )
             json.dump(data_formatted, f, indent=4)
 
+    @staticmethod
+    def parse_stream_data(file_path: str) -> list[dict]:
+        """
+        parses a raw steram file into a dictionary, 
+        the stream file is a sequence of jsons, it is not a valid json file 
+        but what it allows it to do is preserve order
+        """
 
+        stream_file_path = file_path
+        
+        if os.path.exists(stream_file_path):
+            with open(stream_file_path,'r') as f: 
+                content = f.read() 
+        else: 
+            raise FileExistsError(f'{stream_file_path} not found')
+
+        # Add commas between JSON objects and wrap with square brackets
+        formatted_content = '[' + content.replace('}{', '},{') + ']'
+
+        data_results: dict = json.loads(formatted_content)
+
+        # check if first entry is the genesis header. 
+        if 'message' not in data_results[0].keys(): 
+            raise TypeError(f"Stream file {file_path} missing genesis header")
+        
+        return data_results
