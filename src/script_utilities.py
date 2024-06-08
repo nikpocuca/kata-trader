@@ -28,6 +28,13 @@ workload_logger = create_logger("WorkloadLogger")
 workload_logger.setLevel(logging.DEBUG)
 
 
+def create_parser(name: str) -> ArgumentParser: 
+    """
+    very simple parser for running non-alpaca related workloads 
+    """
+    parser = ArgumentParser(name)
+    return parser
+
 def create_workload_parser(name: str) -> ArgumentParser:
     """
     creates an argument parser for parsing workload configurations.

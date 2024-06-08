@@ -14,8 +14,7 @@ Type definitions on data size and dimensionality
 
 """
 
-
-class KataChangePoint: 
+class KataChangePointEngine: 
     """
     encapsulates changepoint detection and calculation. 
 

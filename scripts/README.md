@@ -22,4 +22,10 @@ export PYTHONPATH=$(pwd)/src:$PYTHONPATH;
 python3 ./scripts/stream_stocks.py --symbol TSLA \
         --config ./src/.secrets 
 
+
+# deploy script for simulation 
+export PYTHONPATH=$(pwd)/src:$PYTHONPATH; 
+python3 ./scripts/stream_simulation.py --file <path_to_streamed_file> --demo
+
+
 ```
