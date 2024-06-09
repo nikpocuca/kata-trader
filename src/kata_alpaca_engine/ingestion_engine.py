@@ -29,6 +29,7 @@ import threading
 
 from threading import Thread
 from multiprocessing import Process
+import numpy as np
 
 # class related
 from .engine_utilities import (
@@ -36,6 +37,8 @@ from .engine_utilities import (
     create_stream_file,
     acquire_credentials,
 )
+
+from scipy.special import softmax
 
 STREAM_DIRECTORY = "stock-data-streams"
 STOCK_DATA_TIME_FORMAT = "%Y-%m-%d: %H:%M:%S.%f"
@@ -73,6 +76,7 @@ class IngestionEngine:
         'bs': 'bid_size',
         't': 'time_stamp',
         'ap': 'ask_price',
+        'as': 'ask_size',
     }
 
     def __init__(self,
@@ -176,6 +180,11 @@ class IngestionEngine:
         new_key, value = self.generate_pair(key,stream_dict)
         new_dict[new_key] = value
                 
+    def softmax(self, weights: np.array):
+        """
+        calls scipy softmax
+        """
+        return softmax(weights)
 
     async def stock_handler(self, data):
         with open(self.stream_file_path + ".json", "a") as f:
@@ -189,9 +198,22 @@ class IngestionEngine:
             self.update_formatted_dict_r('bp', data_new, data_formatted)
             self.update_formatted_dict_r('ap', data_new, data_formatted)
             self.update_formatted_dict_r('S', data_new, data_formatted)
+            self.update_formatted_dict_r('bs', data_new, data_formatted)
+            self.update_formatted_dict_r('as', data_new, data_formatted)
+
+            ask_price = data_formatted['ask_price']
+            ask_size = data_formatted['ask_size']
+            bid_price = data_formatted['bid_price']
+            bid_size = data_formatted['bid_size']
+            
+            proportions = self.softmax([ask_size, bid_size])
+            weighted_price = np.sum(np.array([ask_price,bid_price]) * proportions )
+
+            data_formatted['weighted_price'] = weighted_price
+
             data_formatted['message_type'] = 'quote'
             logger.info(
-                f"QUOTE {data_formatted['symbol']} | ASK({data_formatted['ask_price']}) | BID({data_formatted['bid_price']})"
+                f"QUOTE {data_formatted['symbol']} | ASK({ask_price}).{ask_size} | BID({bid_price}).{bid_size} | WEIGHTED_PRICE({weighted_price})"
             )
             json.dump(data_formatted, f, indent=4)
 
@@ -221,3 +243,19 @@ class IngestionEngine:
             raise TypeError(f"Stream file {file_path} missing genesis header")
         
         return data_results
+
+    @staticmethod
+    def is_genesis(json_dict: dict) -> bool:
+        """
+        checks to see if the incoming json dict is a genesis message 
+        """
+
+        genesis_keys = ['message','user','hostname']
+        
+        try:
+            for key in genesis_keys:
+                json_dict[key]
+        except:
+            return False 
+        
+        return True

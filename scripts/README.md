@@ -25,7 +25,8 @@ python3 ./scripts/stream_stocks.py --symbol TSLA \
 
 # deploy script for simulation 
 export PYTHONPATH=$(pwd)/src:$PYTHONPATH; 
-python3 ./scripts/stream_simulation.py --file <path_to_streamed_file> --demo
+# python3 ./scripts/stream_simulation.py --file <path_to_streamed_file> --demo
+python3 ./scripts/stream_simulation.py --file ./tsla-stream-2024-06-05.json --demo
 
 
 ```
