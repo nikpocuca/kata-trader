@@ -59,6 +59,7 @@ class SimulationEngine:
     attach_data_list: List[float]
     attached: bool
     attached_iter: Iterator
+    end_of_simulation: bool
 
     def __init__(self, 
                  file_path: os.PathLike, 
@@ -80,6 +81,7 @@ class SimulationEngine:
                     self.logger = simulation_logger
                     self.sim_time = [flat_sim_time]* len(self.json_data_list)
                     self.sim_time_iter = iter(self.sim_time)
+                    self.end_of_simulation = False
 
                 case SimulationMode.RealTime: 
                     raise NotImplementedError(f"Real time mode is not available yet")
@@ -126,8 +128,11 @@ class SimulationEngine:
                 self.attach_data_list.append(data_point_json)
                 
             except StopIteration:
-                self.logger("End of iterator reached, simulation is done")
-                break        
+                self.logger.info("End of iterator reached, simulation is done")
+                self.end_of_simulation = True
+                self.detach()
+                break
+                
 
     def start_simulation_in_background(self) -> None:
         """

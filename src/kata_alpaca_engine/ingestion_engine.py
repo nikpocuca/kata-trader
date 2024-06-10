@@ -189,8 +189,8 @@ class IngestionEngine:
     async def stock_handler(self, data):
         with open(self.stream_file_path + ".json", "a") as f:
             data_new = data.copy() 
-
-            data_new['t'] = datetime.fromtimestamp(data['t'].seconds)
+            
+            data_new['t'] = datetime.fromtimestamp(data['t'].nanoseconds// 1_000)
             data_new['t'] = data_new['t'].strftime(STOCK_DATA_TIME_FORMAT)
 
             data_formatted = {}
