@@ -23,6 +23,7 @@ def main() -> WorkloadResult:
         # declare engine and wait to receive trade info.
         _ = KataAlpacaEngine(archive_mode=False, secret_path=args.config)
 
+        breakpoint()
     except Exception as error:
         workload_logger.info(f"workload failed {error.__repr__()}")
         return WorkloadResult.FAILURE
