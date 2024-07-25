@@ -33,7 +33,7 @@ services:
       context: .
       dockerfile: red.Dockerfile
     volumes:
-      - redis-data:/data
+      - ../redis-data:/data
       - ./redis.conf:/usr/local/etc/redis/redis.conf
     expose:
       - "6379"
