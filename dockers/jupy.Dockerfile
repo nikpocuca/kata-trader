@@ -1,4 +1,4 @@
-FROM ubuntu:jammy AS ubuntu_shell_2204
+FROM ubuntu:jammy AS base
 
 # Set non-interactive mode for apt-get to avoid timezone prompt
 ENV DEBIAN_FRONTEND=noninteractive
@@ -68,3 +68,19 @@ RUN echo 'export PS1="\[$(tput setaf 165)\](jammy)\[$(tput setaf 171)\] \[$(tput
 
 ENV APP_DIR="/home/app_user/app/"
 WORKDIR ${APP_DIR}
+
+
+FROM base AS jupy 
+
+# Install Jupyter Notebook
+RUN pip3 install jupyter
+
+RUN pip3 install jupyterthemes
+
+RUN jt -t monokai
+
+# Expose the port for Jupyter Notebook
+EXPOSE 8888
+
+
+

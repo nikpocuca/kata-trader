@@ -7,3 +7,19 @@ shell:
 .PHONY:
 shell_build:
 	sudo docker compose  -f "./dockers/docker-compose.yml"  build ubuntu_shell_2204
+
+.PHONY:
+jupy_build:
+	sudo docker compose -f "./dockers/docker-compose.yml" build jupy
+
+.PHONY:
+jupy:
+		sudo docker compose -f "./dockers/docker-compose.yml" run -p 8889:8889 jupy
+
+.PHONY:
+red:
+	sudo docker compose -f "./dockers/docker-compose.yml" up red
+
+.PHONY:
+red_build:
+	sudo docker compose -f "./dockers/docker-compose.yml" build red

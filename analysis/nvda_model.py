@@ -158,6 +158,7 @@ def fit_changepoint_model(data: pd.DataFrame):
     data = list(close.flatten())
     model = EWMA(r=0.75, L=1.5, burnin=1, mu=data[0], sigma=1.0)
 
+
     model.process(data=data)
 
     plt.figure(figsize=(15, 8))
@@ -176,6 +177,7 @@ def fit_changepoint_model(data: pd.DataFrame):
 
     
     plt.plot(timestamps, model.Z, c="m", label="$Z$")
+    plt.plot(timestamps, model._mu, c="red", label="$Z$")
     plt.plot(timestamps, np.asarray(model._mu) + np.asarray(model.sigma_Z) * model.L,
             c="y", label="$\mu \pm L \sigma_Z$")
     plt.plot(timestamps, np.asarray(model._mu) - np.asarray(model.sigma_Z) * model.L,

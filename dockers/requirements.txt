@@ -10,5 +10,8 @@ numpy
 ruptures
 pyaml
 imageio 
-
+gpflow
+scikit-learn
+statsmodels
+redis
 #NOTE(pin versions later) 
