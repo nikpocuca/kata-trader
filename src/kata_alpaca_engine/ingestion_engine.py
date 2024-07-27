@@ -290,15 +290,31 @@ class RedisTableUtility:
             return pd.read_json(StringIO(result[1]))
         else:
             raise Exception(f"key:{key}{date_key} not found")
+
+    def get_tags(self, key):
             
+        result = json.loads(self.connection.get(key)).keys() 
+
+        return list(result)
+
     def set(self, key, date_key, df_inbound):
         try:
             df_json = df_inbound.to_json()
 
-            result = self.connection.set(key, 
-                json.dumps({
-                    date_key:['table', df_json]}
-                          ))
+            if self.connection.exists(key): 
+                temp_result: dict = json.loads(self.connection.get(key))
+                temp_result.update({
+                    date_key:['table', df_json]
+                    }
+                )
+                result = self.connection.set(key, 
+                    json.dumps(temp_result
+                    ))
+            else: 
+                result = self.connection.set(key, 
+                    json.dumps({
+                        date_key:['table', df_json]}
+                            ))
 
             return result
         except:
