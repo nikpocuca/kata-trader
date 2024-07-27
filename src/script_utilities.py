@@ -5,7 +5,7 @@ basic utility objects and functions that assist with launching workloads in gene
 
 """
 
-from kata_alpaca_engine.logging_utilities import create_logger
+from .kata_alpaca_engine.logging_utilities import create_logger
 from enum import Enum
 import logging
 from argparse import ArgumentParser

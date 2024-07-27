@@ -16,4 +16,5 @@ statsmodels
 redis
 pyarrow
 plotly
+QuantLib
 #NOTE(pin versions later) 

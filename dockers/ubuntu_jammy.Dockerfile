@@ -61,6 +61,7 @@ RUN pip3 install --upgrade --force-reinstall -r requirements.txt
 
 RUN ${APT_INSTALL} nodejs
 RUN ${APT_INSTALL} node-ws
+RUN ${APT_INSTALL} redis-tools
 
 ENV PYTHONPATH /app/src:$PYTHONPATH
 

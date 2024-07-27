@@ -21,6 +21,10 @@ from .logging_utilities import create_logger
 
 logger = create_logger("engine-utilities")
 
+from alpaca.data.historical import StockHistoricalDataClient
+from alpaca.data.requests import StockBarsRequest
+from alpaca.data.timeframe import TimeFrame
+import pandas as pd
 
 def create_andor_delete_dir(dir: os.PathLike = "./streams", delete: bool = True):
     """
@@ -90,3 +94,32 @@ def acquire_credentials(secret_path: str = None):
     else:
         logger.critical("Secrets file not found")
         raise FileNotFoundError(f"File not found for {secret_path}")
+
+
+
+def download_data(secrets_path, start_date, symbols = 'NVDA'):
+    """
+    downloads data from the alpaca 
+    """
+    api_key , api_secret = acquire_credentials(secrets_path)
+
+    client = StockHistoricalDataClient(api_key=api_key,
+                                       secret_key=api_secret)
+
+    request_params = StockBarsRequest(
+        symbol_or_symbols=symbols,
+        timeframe=TimeFrame.Day,
+        start=datetime.strptime(start_date, '%Y-%m-%d')
+    )
+
+    bars = client.get_stock_bars(request_params)
+    df = bars.df 
+    timestamps = df.index.map(lambda x : x[1]).values
+    closing_prices = df['close'].values
+
+    interim_df = pd.DataFrame({'timestamp':timestamps, 
+                               'price': closing_prices})
+    
+    return interim_df        
+
+

@@ -81,7 +81,7 @@ class RegressionModel:
         self.test_fit_y = y_fit 
         self.test_fit_y_sigma = sigma 
         self.Xt = self.test_X.flatten() 
-
+        return self.Xt, y_fit, sigma
 
     def plot_train_data(self, clf=True): 
         plt.scatter(self.X, self.y, s=10, color='black')

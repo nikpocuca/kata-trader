@@ -38,6 +38,10 @@ from .engine_utilities import (
     acquire_credentials,
 )
 
+from io import StringIO
+import pandas as pd
+from redis import Redis
+
 from scipy.special import softmax
 
 STREAM_DIRECTORY = "stock-data-streams"
@@ -259,3 +263,43 @@ class IngestionEngine:
             return False 
         
         return True
+
+
+class RedisTableUtility:
+
+    connection: Redis
+
+    def __init__(self, connection: Redis):
+        self.connection = connection
+
+    def check(self, key, date_key):
+        if self.connection.exists(key):
+            try:
+                result = json.loads(self.connection.get(key))[date_key]
+                return result[0] == 'table'
+            except:
+                return False
+        else:
+            return False
+
+    def get(self, key, date_key):
+        if self.check(key, date_key):
+            
+            result = json.loads(self.connection.get(key))[date_key]
+
+            return pd.read_json(StringIO(result[1]))
+        else:
+            raise Exception(f"key:{key}{date_key} not found")
+            
+    def set(self, key, date_key, df_inbound):
+        try:
+            df_json = df_inbound.to_json()
+
+            result = self.connection.set(key, 
+                json.dumps({
+                    date_key:['table', df_json]}
+                          ))
+
+            return result
+        except:
+            raise Exception(f"key:{key}{date_key} failed to set")

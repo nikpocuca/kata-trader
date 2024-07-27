@@ -79,6 +79,8 @@ RUN pip3 install jupyterthemes
 
 RUN jt -t monokai
 
+RUN ${APT_INSTALL} redis-tools
+
 # Expose the port for Jupyter Notebook
 EXPOSE 8888
 
